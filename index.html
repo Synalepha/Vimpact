@@ -1,513 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V-Impact | Conscious Architects of the Future</title>
-    <meta name="description" content="V-Impact is building a Voting Bloc for Conscious Progress. We imagine and create a new way forward — where humankind becomes the Conscious Architects of an outrageously positive future.">
-    <style>
-        :root {
-            --bg: #0a0e1a;
-            --bg2: #111827;
-            --bg3: #1a2235;
-            --text: #e2e8f0;
-            --text-dim: #94a3b8;
-            --accent: #38bdf8;
-            --accent2: #818cf8;
-            --accent-glow: rgba(56, 189, 248, 0.12);
-            --border: #1e293b;
-            --gradient: linear-gradient(135deg, #0ea5e9, #8b5cf6);
-            --max-w: 1100px;
-            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: var(--font-sans);
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.7;
-            overflow-x: hidden;
-        }
-
-        /* ─── Hero Background ─── */
-        .hero-bg {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            z-index: -1;
-            background:
-                radial-gradient(ellipse at 20% 50%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 80%, rgba(16, 185, 129, 0.06) 0%, transparent 50%),
-                var(--bg);
-        }
-
-        /* ─── Navigation ─── */
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            padding: 1rem 2rem;
-            background: rgba(10, 14, 26, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .nav-inner {
-            max-width: var(--max-w);
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-decoration: none;
-            letter-spacing: -0.02em;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--text-dim);
-            text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent);
-        }
-
-        .btn-primary {
-            background: var(--gradient);
-            color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 9999px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.875rem;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(56, 189, 248, 0.3);
-        }
-
-        /* ─── Hero Section ─── */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 8rem 2rem 4rem;
-            position: relative;
-        }
-
-        .hero-badge {
-            display: inline-block;
-            padding: 0.5rem 1.5rem;
-            background: rgba(56, 189, 248, 0.1);
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--accent);
-            margin-bottom: 2rem;
-            animation: fadeIn 1s ease-out;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            max-width: 800px;
-            animation: fadeIn 1s ease-out 0.2s both;
-        }
-
-        .hero h1 .gradient-text {
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            font-size: clamp(1rem, 2vw, 1.25rem);
-            color: var(--text-dim);
-            max-width: 600px;
-            margin-bottom: 3rem;
-            animation: fadeIn 1s ease-out 0.4s both;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            animation: fadeIn 1s ease-out 0.6s both;
-        }
-
-        .btn-hero {
-            padding: 1rem 2.5rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .btn-hero-primary {
-            background: var(--gradient);
-            color: white;
-        }
-
-        .btn-hero-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 60px rgba(56, 189, 248, 0.3);
-        }
-
-        .btn-hero-secondary {
-            border: 1px solid var(--border);
-            color: var(--text);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .btn-hero-secondary:hover {
-            border-color: var(--accent);
-            background: var(--accent-glow);
-        }
-
-        /* ─── Stats Bar ─── */
-        .stats-bar {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1px;
-            background: var(--border);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .stat {
-            background: var(--bg2);
-            padding: 2.5rem 2rem;
-            text-align: center;
-        }
-
-        .stat .number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat .label {
-            font-size: 0.875rem;
-            color: var(--text-dim);
-        }
-
-        /* ─── Sections ─── */
-        .section {
-            max-width: var(--max-w);
-            margin: 0 auto;
-            padding: 8rem 2rem;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-header h2 {
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-        }
-
-        .section-header p {
-            color: var(--text-dim);
-            font-size: 1.125rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* ─── Cards Grid ─── */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .card {
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem;
-            transition: all 0.3s;
-        }
-
-        .card:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
-            box-shadow: 0 20px 60px rgba(56, 189, 248, 0.1);
-        }
-
-        .card-icon {
-            width: 3rem;
-            height: 3rem;
-            background: var(--gradient);
-            border-radius: 0.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-        }
-
-        .card h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            color: var(--text);
-        }
-
-        .card p {
-            color: var(--text-dim);
-            font-size: 0.9375rem;
-        }
-
-        /* ─── Quote Block ─── */
-        .quote-block {
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 4rem 2rem;
-            text-align: center;
-            margin: 4rem 0;
-        }
-
-        .quote-block blockquote {
-            font-size: clamp(1.25rem, 3vw, 1.75rem);
-            font-weight: 600;
-            color: var(--text);
-            font-style: normal;
-            border: none;
-            padding: 0;
-            background: none;
-        }
-
-        .quote-block cite {
-            display: block;
-            margin-top: 1.5rem;
-            color: var(--text-dim);
-            font-size: 0.875rem;
-            font-style: normal;
-        }
-
-        /* ─── CTA Section ─── */
-        .cta-section {
-            text-align: center;
-            padding: 8rem 2rem;
-            background: var(--bg2);
-            border-top: 1px solid var(--border);
-        }
-
-        .cta-section h2 {
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .cta-section p {
-            color: var(--text-dim);
-            font-size: 1.125rem;
-            max-width: 600px;
-            margin: 0 auto 2rem;
-        }
-
-        /* ─── Footer ─── */
-        footer {
-            text-align: center;
-            padding: 3rem 2rem;
-            border-top: 1px solid var(--border);
-            color: var(--text-dim);
-            font-size: 0.875rem;
-        }
-
-        /* ─── Animations ─── */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ─── Responsive ─── */
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .stats-bar { grid-template-columns: 1fr; }
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#11130f">
+  <title>V-Impact | A Voting Bloc for Conscious Progress</title>
+  <meta name="description" content="V-Impact is developing a voting bloc, public platform, and local conversations organized around Conscious Progress.">
+  <link rel="canonical" href="https://vimpact.org/">
+  <meta property="og:title" content="V-Impact | Conscious Progress">
+  <meta property="og:description" content="A civic project developing a voting bloc and public platform for conscious, shared progress.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vimpact.org/">
+  <link rel="icon" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <script src="site.js" defer></script>
 </head>
 <body>
-    <div class="hero-bg"></div>
-
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-inner">
-            <a href="#" class="logo">V-Impact</a>
-            <div class="nav-links">
-                <a href="#about">About</a>
-                <a href="#vision">Vision</a>
-                <a href="#action">Action Agenda</a>
-                <a href="#bloc">Voting Bloc</a>
-                <a href="#join" class="btn-primary">Join Us</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-badge">A Movement for Conscious Progress</div>
-        <h1>We Are the <span class="gradient-text">Conscious Architects</span> of the Future</h1>
-        <p>Humankind is perched at the precipice of a Great Reckoning. We must stop Trump — but that alone is not enough. Equally as vital, we must clearly define and passionately articulate our vision for a tremendous future.</p>
-        <div class="hero-cta">
-            <a href="#join" class="btn-hero btn-hero-primary">Become an Architect</a>
-            <a href="#about" class="btn-hero btn-hero-secondary">Learn More</a>
-        </div>
-    </section>
-
-    <!-- Stats Bar -->
-    <div class="stats-bar">
-        <div class="stat">
-            <div class="number">4×</div>
-            <div class="label">Men die by suicide at 4× the rate of women</div>
-        </div>
-        <div class="stat">
-            <div class="number">15%</div>
-            <div class="label">Of young men have no close friends (up from 3% in 1990)</div>
-        </div>
-        <div class="stat">
-            <div class="number">40%</div>
-            <div class="label">Of men have never spoken to anyone about their mental health</div>
-        </div>
-        <div class="stat">
-            <div class="number">80%</div>
-            <div class="label">Of UK men's wellbeing groups are volunteer-run</div>
-        </div>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header>
+    <div class="nav-wrap">
+      <a class="brand" href="index.html" aria-label="V-Impact home"><span>V</span>Impact</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+      <nav id="primary-nav" aria-label="Primary">
+        <ul>
+          <li><a href="#vision">Vision</a></li>
+          <li><a href="#principles">Principles</a></li>
+          <li><a href="#agenda">Action agenda</a></li>
+          <li><a href="#bloc">Voting bloc</a></li>
+          <li><a class="nav-cta" href="#participate">Participate</a></li>
+        </ul>
+      </nav>
     </div>
+  </header>
 
-    <!-- About Section -->
-    <section class="section" id="about">
-        <div class="section-header">
-            <h2>Introducing Conscious Progress</h2>
-            <p>V-Impact's focus is on imagining and creating a new way forward, where humankind becomes the Conscious Architects of an outrageously positive and amazing future.</p>
+  <main id="main">
+    <section class="hero" id="vision">
+      <div class="hero-mark" aria-hidden="true">V</div>
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">A civic project for conscious progress</p>
+          <h1>The future is not something we wait for.</h1>
+          <p class="hero-lede">V-Impact is developing a voting bloc and public platform for people who want progress measured by human potential, shared prosperity, democratic agency, and the health of the living world.</p>
+          <div class="actions"><a class="button" href="#agenda">Explore the action agenda</a><a class="button secondary" href="#principles">Read the principles</a></div>
         </div>
-        <div class="cards-grid">
-            <div class="card">
-                <div class="card-icon">🌍</div>
-                <h3>The Great Leap</h3>
-                <p>We are part of the living world — a multi-billion-year evolutionary pathway, on a trajectory to produce ever-greater biological complexity, structure, and function. Humans are the one species to gain an infinite ability to discover, express, and invent.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">💡</div>
-                <h3>Conscious Progress</h3>
-                <p>Conscious Progress aligns innovation with ethical values, human potential, and the well-being of all. It moves us beyond growth for its own sake and toward a future where progress is deliberate, regenerative, and transformative.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">🚀</div>
-                <h3>The Vision</h3>
-                <p>If we use life's evolutionary gifts of discovery, expression, and invention consciously, we gain the option to craft a new road forward — one offering a future of exceptional and sustainable abundance, where prosperity is generously shared.</p>
-            </div>
-        </div>
+        <aside class="hero-note" aria-label="V-Impact proposition">
+          <span class="note-number">01</span>
+          <p>Move beyond opposition alone.</p>
+          <strong>Define what we are for, organize around it, and build the political power to pursue it.</strong>
+        </aside>
+      </div>
     </section>
 
-    <!-- Quote Block -->
-    <div class="quote-block">
-        <blockquote>"We are an Inflection Point of Life Itself! A Revolution in Evolution! Capable of Everything!"</blockquote>
-        <cite>— The V-Impact Vision</cite>
-    </div>
-
-    <!-- Action Agenda Section -->
-    <section class="section" id="action">
-        <div class="section-header">
-            <h2>Action Agenda</h2>
-            <p>The Action Agenda is where V-Impact moves from vision to implementation. Grounded in the Platform of Conscious Progress, this agenda outlines the strategic steps we are taking to build a broad, values-driven voting bloc.</p>
-        </div>
-        <div class="cards-grid">
-            <div class="card">
-                <div class="card-icon">🗳️</div>
-                <h3>Voting Bloc</h3>
-                <p>We are creating a movement, in the form of a Voting Bloc, united by the Vision of Conscious Progress and the Mission of Multi-Metric Capitalism. We shall harness the collective power of voters to act with a unified, intentional voice.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">📜</div>
-                <h3>Platform of Conscious Progress</h3>
-                <p>We are implementing a collaborative process for Architects to evolve the concepts of Conscious Progress and Multi-Metric Capitalism into a comprehensive policy-focused platform — one compelling enough to attract aligned candidates.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">🤝</div>
-                <h3>Impact Cafés</h3>
-                <p>An Impact Café is a welcoming space — online or in-person — where people come together to explore big ideas, share bold visions, and collaborate on creating a post-Trump future. It's more than conversation; it's about meaningful dialogue that leads to real action.</p>
-            </div>
-        </div>
+    <section class="statement" aria-labelledby="statement-title">
+      <div class="wrap"><p class="eyebrow">The proposition</p><h2 id="statement-title">Innovation becomes progress only when it serves life deliberately.</h2></div>
     </section>
 
-    <!-- Voting Bloc Section -->
-    <section class="section" id="bloc">
-        <div class="section-header">
-            <h2>Voting Bloc for Conscious Progress</h2>
-            <p>A movement is emerging: a Voting Bloc united by the vision of Conscious Progress. Together as one intentional voice, we intend to harness the collective power of voters to create a tremendous future of our choosing.</p>
+    <section class="section" id="principles" aria-labelledby="principles-title">
+      <div class="wrap">
+        <div class="section-head"><div><p class="eyebrow">Conscious progress</p><h2 id="principles-title">Three commitments</h2></div><p>These ideas are a starting framework for public development—not a claim that the platform is finished.</p></div>
+        <div class="grid three">
+          <article class="card"><span class="card-number">01</span><h3>Discover boldly</h3><p>Use humanity’s capacity for inquiry to understand systems, consequences, and possibilities more completely.</p></article>
+          <article class="card"><span class="card-number">02</span><h3>Choose consciously</h3><p>Evaluate innovation and policy against multiple measures: dignity, opportunity, resilience, ecological health, and broadly shared benefit.</p></article>
+          <article class="card"><span class="card-number">03</span><h3>Build collectively</h3><p>Turn shared values into public priorities through conversation, democratic participation, and accountable political action.</p></article>
         </div>
-        <div class="cards-grid">
-            <div class="card">
-                <div class="card-icon">🎯</div>
-                <h3>Refine & Expand</h3>
-                <p>Refine and expand upon the Platform of Conscious Progress through Impact Cafés for Platform Development and Forum Discussions for Platform Advancement.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">💬</div>
-                <h3>Participate</h3>
-                <p>Join Voting Bloc activities such as Idea Cafes and forum discussions. Participate in outreach by inviting people to join our movement.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">🌱</div>
-                <h3>Grow Together</h3>
-                <p>Help transform free-market capitalism into a conscious, regenerative force that truly serves all people and the planet.</p>
-            </div>
-        </div>
+      </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section" id="join">
-        <h2>Become an Architect</h2>
-        <p>Join the Voting Bloc and take an active role in shaping a post-Trump future that works for everyone and the planet. This is more than a campaign — it's a movement to redefine progress and capitalism.</p>
-        <a href="#" class="btn-hero btn-hero-primary">Join the Movement</a>
+    <section class="section dark" id="agenda" aria-labelledby="agenda-title">
+      <div class="wrap agenda-layout">
+        <div class="sticky-head"><p class="eyebrow">From vision to work</p><h2 id="agenda-title">Action agenda</h2><p>V-Impact proposes a connected sequence: develop the platform in public, convene constructive dialogue, and organize voters around the result.</p></div>
+        <ol class="agenda-list">
+          <li><span>01</span><div><h3>Develop the platform</h3><p>Translate Conscious Progress and multi-metric capitalism into specific, debatable public priorities.</p></div></li>
+          <li><span>02</span><div><h3>Convene Impact Cafés</h3><p>Create welcoming online and in-person spaces for people to test ideas, identify tradeoffs, and improve the platform.</p></div></li>
+          <li><span>03</span><div><h3>Organize a voting bloc</h3><p>Build a transparent coalition capable of asking candidates for clear commitments and acting with an intentional democratic voice.</p></div></li>
+        </ol>
+      </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 V-Impact. All rights reserved. | <a href="#" style="color: var(--accent);">Privacy Policy</a> | <a href="#" style="color: var(--accent);">Contact</a></p>
-    </footer>
+    <section class="section" id="bloc" aria-labelledby="bloc-title">
+      <div class="wrap">
+        <div class="section-head"><div><p class="eyebrow">Political agency</p><h2 id="bloc-title">What the voting bloc must become</h2></div><p>A credible bloc needs more than a name. Its platform, governance, participation rules, and candidate-accountability process must be public and understandable.</p></div>
+        <div class="bloc-grid">
+          <article><span>Platform</span><h3>A clear public position</h3><p>Priorities specific enough to evaluate, revise, and ask candidates to address.</p></article>
+          <article><span>Process</span><h3>Visible rules</h3><p>A defined way to contribute, make decisions, resolve disagreement, and update the platform.</p></article>
+          <article><span>Power</span><h3>Coordinated participation</h3><p>Voters prepared to organize, communicate, and hold political actors accountable.</p></article>
+          <article><span>Proof</span><h3>Measurable commitments</h3><p>Public criteria for assessing whether policy and leadership advance the stated vision.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="participate" id="participate" aria-labelledby="participate-title">
+      <div class="wrap participate-grid"><div><p class="eyebrow">Participate</p><h2 id="participate-title">Help shape the next version.</h2></div><div><p>V-Impact is still establishing its public participation and contact channels. This page will link them when they can be monitored responsibly.</p><p class="status-note">No signup form is active on this site today. V-Impact does not collect visitor information here.</p></div></div>
+    </section>
+  </main>
+
+  <footer><div class="wrap footer-grid"><a class="brand" href="index.html"><span>V</span>Impact</a><p>Conscious architects of a future worth choosing.</p><p>© 2026 V-Impact</p></div></footer>
 </body>
 </html>
