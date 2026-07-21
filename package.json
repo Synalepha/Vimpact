@@ -1,0 +1,1 @@
+{"name":"vimpact-site","private":true,"type":"module","scripts":{"test":"node --check site.js && node tests/static-check.mjs"}}

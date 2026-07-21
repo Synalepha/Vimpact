@@ -7,7 +7,7 @@ if (toggle && nav) {
     nav.hidden = !open;
   };
   const sync = () => {
-    if (innerWidth > 800) {
+    if (innerWidth > 760) {
       nav.hidden = false;
       toggle.textContent = "Menu";
       toggle.setAttribute("aria-expanded", "false");
@@ -18,7 +18,7 @@ if (toggle && nav) {
     setOpen(toggle.getAttribute("aria-expanded") !== "true"),
   );
   nav.addEventListener("click", (event) => {
-    if (innerWidth <= 800 && event.target.closest("a")) setOpen(false);
+    if (innerWidth <= 760 && event.target.closest("a")) setOpen(false);
   });
   nav.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
@@ -28,4 +28,14 @@ if (toggle && nav) {
   });
   addEventListener("resize", sync);
   sync();
+}
+
+const contactForm = document.querySelector("#contact-form");
+if (contactForm) {
+  contactForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const status = document.querySelector("#form-status");
+    status.textContent = "This migrated preview cannot deliver messages yet. Please use the V-Impact Substack link below while the contact endpoint is configured.";
+    status.focus?.();
+  });
 }
