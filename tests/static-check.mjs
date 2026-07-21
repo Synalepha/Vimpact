@@ -17,6 +17,7 @@ for (const file of pages) {
     /site\.js/.test(html) && /styles\.css/.test(html),
     `${file}: shared assets`,
   );
+  check(!/>Log In</.test(html), `${file}: no false login affordance`);
   for (const m of html.matchAll(/(?:href|src)="([^"#?]+)(?:[?#][^"]*)?"/g)) {
     const target = m[1];
     if (/^(?:https?:|mailto:|data:)/.test(target)) continue;
@@ -27,6 +28,11 @@ for (const file of pages) {
     }
   }
 }
+const home = await readFile(path.join(root, "index.html"), "utf8");
+check(/Founder’s Draft 1\.0/.test(home), "homepage labels platform status");
+check(/What exists—and what does not yet/.test(home), "homepage publishes current status");
+const contact = await readFile(path.join(root, "contact-1.html"), "utf8");
+check(!/<form\b/.test(contact), "contact page does not collect undeliverable data");
 check(pages.length === 8, `expected 8 pages, found ${pages.length}`);
 if (failures.length) {
   console.error(failures.map((x) => `FAIL: ${x}`).join("\n"));
