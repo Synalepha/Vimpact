@@ -46,7 +46,10 @@ const forum = await readFile(path.join(root, "forums.html"), "utf8");
 check(/Continue to the forum on Wix/.test(forum), "forum handoff identifies Wix");
 const donate = await readFile(path.join(root, "donate.html"), "utf8");
 check(/legal or entity status/.test(donate), "donation page discloses missing legal status");
-check(pages.length === 8, `expected 8 pages, found ${pages.length}`);
+const map = await readFile(path.join(root, "progress-map.html"), "utf8");
+check(/progress-canvas/.test(map) && /map\.js/.test(map), "map includes interactive canvas and data");
+check(/Inclusion does not imply affiliation/.test(map), "map disclaims affiliation and endorsement");
+check(pages.length === 9, `expected 9 pages, found ${pages.length}`);
 if (failures.length) {
   console.error(failures.map((x) => `FAIL: ${x}`).join("\n"));
   process.exit(1);

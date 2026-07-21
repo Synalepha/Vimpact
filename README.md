@@ -1,6 +1,6 @@
 # V-Impact
 
-Portable eight-page civic-editorial website for deployment at Vimpact.org. It preserves the authorized Vimpact.us source material and local media while presenting the platform, participation status, external services, and organizational gaps clearly. The public site is static, tracker-free, and does not collect form submissions or create accounts.
+Portable nine-page civic-editorial website for deployment at Vimpact.org. It preserves the authorized Vimpact.us source material and local media while presenting the platform, participation status, external services, organizational gaps, and an interactive Conscious Progress history map clearly. The public site is static, tracker-free, and does not collect form submissions or create accounts.
 
 ## Local preview
 

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#092a24" />
+    <title>Conscious Progress Map | V-Impact</title>
+    <meta name="description" content="Explore how people, movements, and public ideas connect across four pillars of Conscious Progress." />
+    <link rel="canonical" href="https://vimpact.org/progress-map" />
+    <link rel="icon" href="favicon.svg" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="map.css" />
+    <script src="site.js" defer></script>
+    <script src="map.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header>
+      <div class="site-head">
+        <a class="logo" href="index.html" aria-label="V-Impact home"></a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+        <nav id="primary-nav" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="action-agenda.html">Platform draft</a>
+          <a aria-current="page" href="progress-map.html">Explore the map</a>
+          <a href="impact-cafes.html">Participate</a>
+          <a href="zim.html">About</a>
+        </nav>
+        <a class="header-cta" href="join.html">Get updates</a>
+      </div>
+    </header>
+
+    <main id="main" class="page map-page">
+      <section class="map-intro">
+        <div>
+          <p class="eyebrow">An explorable history of public progress</p>
+          <h1>See how people, ideas, and movements shape one another.</h1>
+        </div>
+        <div>
+          <p class="lede">Conscious Progress is not one straight line. This map connects four proposed pillars—human well-being, shared prosperity, democratic agency, and living systems—to selected historical contributions across time.</p>
+          <p class="map-caveat"><strong>How to read this:</strong> connections show thematic relationships, not proof of direct influence. Inclusion does not imply affiliation with, endorsement of, or participation in V-Impact.</p>
+        </div>
+      </section>
+
+      <section class="map-explorer" aria-labelledby="explorer-title">
+        <div class="map-shell">
+          <div class="map-toolbar">
+            <div>
+              <p class="map-kicker">Conscious Progress / relationship map</p>
+              <h2 id="explorer-title">Move through 1789–2026</h2>
+            </div>
+            <button id="motion-toggle" class="map-control" type="button" aria-pressed="false">Start slow rotation</button>
+          </div>
+
+          <div class="map-stage" id="map-stage">
+            <canvas id="progress-canvas" aria-hidden="true"></canvas>
+            <div class="axis-label axis-time">Time <span>1789 → 2026</span></div>
+            <div class="map-instructions">Drag to orbit · scroll to zoom · select a node to learn more</div>
+            <div class="map-empty" id="map-empty" hidden>No entries match these filters.</div>
+          </div>
+
+          <div class="map-filters" role="group" aria-label="Map filters">
+            <fieldset>
+              <legend>Show contributions from</legend>
+              <label><input class="kind-filter" type="checkbox" value="person" checked /> People</label>
+              <label><input class="kind-filter" type="checkbox" value="movement" checked /> Movements</label>
+              <label><input class="kind-filter" type="checkbox" value="idea" checked /> Policies &amp; ideas</label>
+            </fieldset>
+            <fieldset>
+              <legend>Emphasize a pillar</legend>
+              <div class="pillar-filters" id="pillar-filters"></div>
+            </fieldset>
+            <label class="year-filter"><span>Reveal history through <strong id="year-output">2026</strong></span><input id="year-range" type="range" min="1789" max="2026" value="2026" step="1" /></label>
+          </div>
+        </div>
+
+        <aside class="node-detail" id="node-detail" aria-live="polite">
+          <p class="detail-type">Select a node</p>
+          <h2>Every point opens a story.</h2>
+          <p>Choose a person, movement, policy, or idea in the map. This panel will explain its historical context and why it connects to particular pillars.</p>
+          <p class="detail-hint">Keyboard users can explore the complete synchronized list below.</p>
+        </aside>
+      </section>
+
+      <section class="map-guide">
+        <div class="section-inner">
+          <div class="section-head">
+            <div><p class="eyebrow">The four proposed pillars</p><h2>Progress becomes meaningful when outcomes connect.</h2></div>
+            <p>No pillar stands alone. Health depends on economic security. Democratic power affects how resources are shared. Human prosperity depends on functioning living systems. Select a pillar to trace those relationships.</p>
+          </div>
+          <div class="pillar-cards" id="pillar-cards"></div>
+        </div>
+      </section>
+
+      <section class="accessible-map" aria-labelledby="accessible-map-title">
+        <div class="section-inner">
+          <div class="section-head">
+            <div><p class="eyebrow">A readable version of the visualization</p><h2 id="accessible-map-title">Explore every visible contribution.</h2></div>
+            <p>This list follows the same filters and year as the 3D map. Select any entry to open its full context above.</p>
+          </div>
+          <div class="map-list" id="map-list"></div>
+        </div>
+      </section>
+
+      <section class="map-method">
+        <div class="section-inner">
+          <div class="section-head">
+            <div><p class="eyebrow">What this map is—and is not</p><h2>A starting framework, open to correction.</h2></div>
+            <div><p>The map is a selective editorial interpretation, not a comprehensive history or a claim that progress has been continuous. Dates identify a representative publication, action, law, or period—not the beginning or end of a struggle.</p><p>Future editions should be reviewed by historians, movement participants, policy specialists, and communities whose work is represented. They should add primary sources, contested interpretations, global perspectives, and a public correction process.</p></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-top">
+          <div class="footer-brand">V-Impact<p>An emerging civic project developing a platform and community process for Conscious Progress.</p></div>
+          <nav class="footer-nav" aria-label="Footer">
+            <div><strong>Understand the project</strong><a href="action-agenda.html">Platform Draft 1.0</a><a href="progress-map.html">Conscious Progress map</a><a href="impact-cafes.html">Impact Cafés</a><a href="forums.html">Forum information</a></div>
+            <div><strong>Verify status and leadership</strong><a href="zim.html">About the founder</a><a href="contact-1.html">Contact &amp; site status</a><a href="donate.html">Donation information</a></div>
+            <div><strong>Updates and public channels</strong><a class="external" href="https://jimzimmerman389727.substack.com/" rel="noopener">Substack</a><a class="external" href="https://www.instagram.com/jimzimmeran/?igsh=cHA1eTcyZDI4YzM1" rel="noopener">Instagram</a><a class="external" href="https://www.facebook.com/groups/vimpact" rel="noopener">Facebook group</a></div>
+          </nav>
+        </div>
+        <div class="footer-bottom"><small>© 2026 Created by Jim Zimmerman and Richard DeSantis</small><small>Platform, governance, membership structure, and public accountability practices are still in development.</small></div>
+      </div>
+    </footer>
+  </body>
+</html>
