@@ -41,9 +41,9 @@ test("map filters time and opens historical context", async ({ page }) => {
   await expect(page.locator("#progress-canvas")).toBeVisible();
   await expect(page.locator("#map-stage")).toHaveAttribute("data-map-ready", "true");
   expect(errors).toEqual([]);
-  await expect(page.locator(".map-list-card")).toHaveCount(40);
+  await expect(page.locator(".map-list-card")).toHaveCount(64);
   await page.locator("#year-range").evaluate((range) => { range.value = "1900"; range.dispatchEvent(new Event("input", { bubbles: true })); });
-  await expect(page.locator(".map-list-card")).toHaveCount(8);
+  await expect(page.locator(".map-list-card")).toHaveCount(12);
   await page.locator(".map-list-card").first().click();
   await expect(page.locator("#node-detail")).toContainText("thematic editorial connections");
   await expect(page.locator("#node-detail")).toContainText("Why it appears in the map");
@@ -82,7 +82,7 @@ for (const viewport of [
     expect(metrics.document).toBe(metrics.viewport);
     expect(Math.abs(metrics.stage - metrics.canvas)).toBeLessThan(1);
     await expect(page.locator("#year-range")).toBeVisible();
-    await expect(page.locator(".map-list-card")).toHaveCount(40);
+    await expect(page.locator(".map-list-card")).toHaveCount(64);
   });
 }
 
