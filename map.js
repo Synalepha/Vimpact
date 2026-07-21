@@ -88,11 +88,21 @@ if (canvas && stage) {
   if (!ctx) throw new Error("The Conscious Progress map requires a 2D canvas context.");
   const state = { yaw: -.46, pitch: -.16, zoom: 1, dragging: false, moved: false, lastX: 0, lastY: 0, year: 2026, pillar: "all", motion: false, kinds: new Set(["person", "movement", "idea"]), projected: [], selected: null, hovered: null };
   const kindLabel = { person: "Person", movement: "Movement", idea: "Policy or idea" };
-  const truncateTitle = (title, limit = 38) => {
-    if (title.length <= limit) return title;
-    const clipped = title.slice(0, limit - 1);
-    const lastSpace = clipped.lastIndexOf(" ");
-    return `${clipped.slice(0, lastSpace > limit * .6 ? lastSpace : limit - 1).trim()}…`;
+  const wrapCanvasText = (text, maxWidth) => {
+    const words = text.split(" ");
+    const lines = [];
+    let line = "";
+    words.forEach((word) => {
+      const candidate = line ? `${line} ${word}` : word;
+      if (line && ctx.measureText(candidate).width > maxWidth) {
+        lines.push(line);
+        line = word;
+      } else {
+        line = candidate;
+      }
+    });
+    if (line) lines.push(line);
+    return lines;
   };
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -200,10 +210,31 @@ if (canvas && stage) {
       const compact = rect.width < 620;
       const showLabel = node.entry === state.selected || node.entry === state.hovered || (!compact && node.scale > .88 && entries.indexOf(node.entry) % 4 === 0);
       if (showLabel) {
-        ctx.font = `${node.entry === state.selected ? 700 : 600} ${Math.max(10, 11 * node.scale)}px Avenir Next, sans-serif`;
-        ctx.fillStyle = "#f4efe3"; ctx.textAlign = "center";
-        const label = truncateTitle(node.entry.title, 30);
-        ctx.fillText(label, node.x, node.y - radius - 9);
+        const selected = node.entry === state.selected;
+        const titleSize = selected ? (compact ? 14 : 15) : Math.max(10, 11 * node.scale);
+        const maxLabelWidth = Math.min(compact ? rect.width - 40 : 360, rect.width - 32);
+        ctx.font = `${selected ? 700 : 600} ${titleSize}px Avenir Next, sans-serif`;
+        const titleLines = wrapCanvasText(node.entry.title, maxLabelWidth);
+        const descriptionLines = selected ? wrapCanvasText(node.entry.short, maxLabelWidth) : [];
+        const titleLineHeight = titleSize * 1.25;
+        const descriptionLineHeight = 14;
+        const labelHeight = titleLines.length * titleLineHeight + (selected ? 8 + descriptionLines.length * descriptionLineHeight : 0);
+        const labelX = Math.max(maxLabelWidth / 2 + 16, Math.min(rect.width - maxLabelWidth / 2 - 16, node.x));
+        let labelTop = node.y - radius - 14 - labelHeight;
+        if (labelTop < 48) labelTop = node.y + radius + 16;
+        if (selected) {
+          ctx.fillStyle = "rgba(7, 31, 27, .92)";
+          ctx.fillRect(labelX - maxLabelWidth / 2 - 10, labelTop - 8, maxLabelWidth + 20, labelHeight + 16);
+        }
+        ctx.fillStyle = "#f4efe3"; ctx.textAlign = "center"; ctx.textBaseline = "top";
+        titleLines.forEach((line, index) => ctx.fillText(line, labelX, labelTop + index * titleLineHeight));
+        if (selected) {
+          ctx.fillStyle = "#cbd7d1";
+          ctx.font = `500 11px Avenir Next, sans-serif`;
+          const descriptionTop = labelTop + titleLines.length * titleLineHeight + 8;
+          descriptionLines.forEach((line, index) => ctx.fillText(line, labelX, descriptionTop + index * descriptionLineHeight));
+        }
+        ctx.textBaseline = "alphabetic";
         ctx.fillStyle = "#9fb0a8"; ctx.font = `700 ${Math.max(9, 10 * node.scale)}px Avenir Next, sans-serif`;
         ctx.fillText(String(node.entry.year), node.x, node.y + radius + 14);
       }
@@ -236,7 +267,7 @@ if (canvas && stage) {
       button.classList.add(`pillar-${primaryPillar(entry).id}`);
       button.setAttribute("aria-label", `${entry.year}, ${entry.title}. ${entry.short}`);
       button.title = entry.title;
-      button.innerHTML = `<small>${entry.year} · ${kindLabel[entry.kind]}</small><strong class="map-card-title">${truncateTitle(entry.title)}</strong><span class="map-card-description">${entry.short}</span>`;
+      button.innerHTML = `<small>${entry.year} · ${kindLabel[entry.kind]}</small><strong class="map-card-title">${entry.title}</strong><span class="map-card-description">${entry.short}</span>`;
       button.addEventListener("click", () => showDetail(entry, true));
       list.append(button);
     });
