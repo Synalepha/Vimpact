@@ -42,6 +42,10 @@ test("map filters time and opens historical context", async ({ page }) => {
   await expect(page.locator("#map-stage")).toHaveAttribute("data-map-ready", "true");
   expect(errors).toEqual([]);
   await expect(page.locator(".map-list-card")).toHaveCount(64);
+  const longTitleCard = page.locator('.map-list-card[title="Declaration of the Rights of Man and of the Citizen"]');
+  await expect(longTitleCard.locator(".map-card-title")).toHaveText(/…$/);
+  await expect(longTitleCard.locator(".map-card-description")).not.toBeEmpty();
+  await expect(longTitleCard).toHaveAttribute("aria-label", /Declaration of the Rights of Man and of the Citizen/);
   await page.locator("#year-range").evaluate((range) => { range.value = "1900"; range.dispatchEvent(new Event("input", { bubbles: true })); });
   await expect(page.locator(".map-list-card")).toHaveCount(12);
   await page.locator(".map-list-card").first().click();

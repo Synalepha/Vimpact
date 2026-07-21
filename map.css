@@ -69,8 +69,8 @@
 .map-list-card { display: block; width: 100%; min-height: 190px; padding: 1.3rem; border: 1px solid var(--line); border-top: 5px solid var(--node-color); background: var(--paper); color: var(--ink); text-align: left; cursor: pointer; }
 .map-list-card:hover, .map-list-card:focus-visible { background: var(--sage); }
 .map-list-card small { display: block; margin-bottom: 1.1rem; color: var(--rust-dark); font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
-.map-list-card strong { display: block; margin-bottom: .5rem; color: var(--evergreen); font: 700 1.35rem/1.15 var(--display); }
-.map-list-card span { color: var(--ink-soft); font-size: .84rem; }
+.map-list-card .map-card-title { display: block; margin-bottom: .65rem; color: var(--evergreen); font: 700 1.35rem/1.15 var(--display); }
+.map-list-card .map-card-description { display: block; color: var(--ink-soft); font-size: .84rem; line-height: 1.5; }
 .map-method { background: var(--paper); }
 
 @media (max-width: 1080px) {

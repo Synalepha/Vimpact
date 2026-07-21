@@ -88,6 +88,12 @@ if (canvas && stage) {
   if (!ctx) throw new Error("The Conscious Progress map requires a 2D canvas context.");
   const state = { yaw: -.46, pitch: -.16, zoom: 1, dragging: false, moved: false, lastX: 0, lastY: 0, year: 2026, pillar: "all", motion: false, kinds: new Set(["person", "movement", "idea"]), projected: [], selected: null, hovered: null };
   const kindLabel = { person: "Person", movement: "Movement", idea: "Policy or idea" };
+  const truncateTitle = (title, limit = 38) => {
+    if (title.length <= limit) return title;
+    const clipped = title.slice(0, limit - 1);
+    const lastSpace = clipped.lastIndexOf(" ");
+    return `${clipped.slice(0, lastSpace > limit * .6 ? lastSpace : limit - 1).trim()}…`;
+  };
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
   pillars.forEach((pillar, index) => {
@@ -196,7 +202,7 @@ if (canvas && stage) {
       if (showLabel) {
         ctx.font = `${node.entry === state.selected ? 700 : 600} ${Math.max(10, 11 * node.scale)}px Avenir Next, sans-serif`;
         ctx.fillStyle = "#f4efe3"; ctx.textAlign = "center";
-        const label = node.entry.title.length > 32 ? `${node.entry.title.slice(0, 30)}…` : node.entry.title;
+        const label = truncateTitle(node.entry.title, 30);
         ctx.fillText(label, node.x, node.y - radius - 9);
         ctx.fillStyle = "#9fb0a8"; ctx.font = `700 ${Math.max(9, 10 * node.scale)}px Avenir Next, sans-serif`;
         ctx.fillText(String(node.entry.year), node.x, node.y + radius + 14);
@@ -228,7 +234,9 @@ if (canvas && stage) {
       button.type = "button";
       button.className = "map-list-card";
       button.classList.add(`pillar-${primaryPillar(entry).id}`);
-      button.innerHTML = `<small>${entry.year} · ${kindLabel[entry.kind]}</small><strong>${entry.title}</strong><span>${entry.short}</span>`;
+      button.setAttribute("aria-label", `${entry.year}, ${entry.title}. ${entry.short}`);
+      button.title = entry.title;
+      button.innerHTML = `<small>${entry.year} · ${kindLabel[entry.kind]}</small><strong class="map-card-title">${truncateTitle(entry.title)}</strong><span class="map-card-description">${entry.short}</span>`;
       button.addEventListener("click", () => showDetail(entry, true));
       list.append(button);
     });
