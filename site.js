@@ -1,41 +1,50 @@
 const toggle = document.querySelector(".nav-toggle");
 const nav = document.querySelector("#primary-nav");
+
 if (toggle && nav) {
-  const setOpen = (open) => {
+  const desktop = matchMedia("(min-width: 821px)");
+
+  const setOpen = (open, returnFocus = false) => {
     toggle.setAttribute("aria-expanded", String(open));
     toggle.textContent = open ? "Close" : "Menu";
     nav.hidden = !open;
+    document.body.classList.toggle("menu-open", open);
+    if (open) nav.querySelector("a")?.focus();
+    if (!open && returnFocus) toggle.focus();
   };
+
   const sync = () => {
-    if (innerWidth > 760) {
+    if (desktop.matches) {
       nav.hidden = false;
-      toggle.textContent = "Menu";
       toggle.setAttribute("aria-expanded", "false");
-    } else if (toggle.getAttribute("aria-expanded") === "false")
-      nav.hidden = true;
-  };
-  toggle.addEventListener("click", () =>
-    setOpen(toggle.getAttribute("aria-expanded") !== "true"),
-  );
-  nav.addEventListener("click", (event) => {
-    if (innerWidth <= 760 && event.target.closest("a")) setOpen(false);
-  });
-  nav.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
+      toggle.textContent = "Menu";
+      document.body.classList.remove("menu-open");
+    } else {
       setOpen(false);
-      toggle.focus();
+    }
+  };
+
+  toggle.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") !== "true";
+    setOpen(open);
+  });
+
+  nav.addEventListener("click", (event) => {
+    if (!desktop.matches && event.target.closest("a")) setOpen(false);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
+      setOpen(false, true);
     }
   });
-  addEventListener("resize", sync);
-  sync();
-}
 
-const contactForm = document.querySelector("#contact-form");
-if (contactForm) {
-  contactForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const status = document.querySelector("#form-status");
-    status.textContent = "This migrated preview cannot deliver messages yet. Please use the V-Impact Substack link below while the contact endpoint is configured.";
-    status.focus?.();
+  document.addEventListener("click", (event) => {
+    if (!desktop.matches && toggle.getAttribute("aria-expanded") === "true" && !event.target.closest("header")) {
+      setOpen(false);
+    }
   });
+
+  desktop.addEventListener("change", sync);
+  sync();
 }

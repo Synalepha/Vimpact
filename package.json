@@ -1,1 +1,1 @@
-{"name":"vimpact-site","private":true,"type":"module","scripts":{"test":"node --check site.js && node tests/static-check.mjs"}}
+{"name":"vimpact-site","private":true,"type":"module","scripts":{"test":"node --check site.js && node tests/static-check.mjs","validate":"html-validate '*.html'","test:browser":"playwright test"},"devDependencies":{"@playwright/test":"1.61.1","html-validate":"10.4.0"}}
