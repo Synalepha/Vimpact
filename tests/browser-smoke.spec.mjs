@@ -37,11 +37,56 @@ test("desktop navigation remains visible", async ({ page }) => {
 test("map filters time and opens historical context", async ({ page }) => {
   await page.goto("/progress-map.html");
   await expect(page.locator("#progress-canvas")).toBeVisible();
-  await expect(page.locator(".map-list-card")).toHaveCount(25);
+  await expect(page.locator(".map-list-card")).toHaveCount(40);
   await page.locator("#year-range").evaluate((range) => { range.value = "1900"; range.dispatchEvent(new Event("input", { bubbles: true })); });
-  await expect(page.locator(".map-list-card")).toHaveCount(4);
+  await expect(page.locator(".map-list-card")).toHaveCount(8);
   await page.locator(".map-list-card").first().click();
   await expect(page.locator("#node-detail")).toContainText("thematic editorial connections");
+  await expect(page.locator("#node-detail")).toContainText("Why it appears in the map");
+  await expect(page.locator("#node-detail .related-nodes button")).toHaveCount(3);
   await page.getByRole("button", { name: "Human well-being" }).click();
   await expect(page.getByRole("button", { name: "Human well-being" })).toHaveAttribute("aria-pressed", "true");
+});
+
+for (const viewport of [
+  { name: "320px phone", width: 320, height: 568 },
+  { name: "360px phone", width: 360, height: 740 },
+  { name: "390px phone", width: 390, height: 844 },
+  { name: "430px phone", width: 430, height: 932 },
+  { name: "phone landscape", width: 844, height: 390 },
+  { name: "tablet portrait", width: 768, height: 1024 },
+]) {
+  test(`map survives ${viewport.name}`, async ({ page }) => {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
+    await page.goto("/progress-map.html");
+    const metrics = await page.evaluate(() => ({
+      viewport: document.documentElement.clientWidth,
+      document: document.documentElement.scrollWidth,
+      stage: document.querySelector("#map-stage").getBoundingClientRect().width,
+      canvas: document.querySelector("#progress-canvas").getBoundingClientRect().width,
+    }));
+    expect(metrics.document).toBe(metrics.viewport);
+    expect(Math.abs(metrics.stage - metrics.canvas)).toBeLessThan(1);
+    await expect(page.locator("#year-range")).toBeVisible();
+    await expect(page.locator(".map-list-card")).toHaveCount(40);
+  });
+}
+
+test.describe("touch map interaction", () => {
+  test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+
+  test("filters, scrubs time, and handles a drag gesture", async ({ page }) => {
+    await page.goto("/progress-map.html");
+    await page.locator('#year-range').evaluate((range) => { range.value = "1970"; range.dispatchEvent(new Event("input", { bubbles: true })); });
+    await expect(page.locator("#year-output")).toHaveText("1970");
+    const stage = page.locator("#map-stage");
+    const box = await stage.boundingBox();
+    await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
+    await stage.dispatchEvent("pointerdown", { pointerId: 1, pointerType: "touch", clientX: box.x + 100, clientY: box.y + 200 });
+    await stage.dispatchEvent("pointermove", { pointerId: 1, pointerType: "touch", clientX: box.x + 180, clientY: box.y + 240 });
+    await stage.dispatchEvent("pointerup", { pointerId: 1, pointerType: "touch", clientX: box.x + 180, clientY: box.y + 240 });
+    await page.getByLabel("Movements").uncheck();
+    await expect(page.getByLabel("Movements")).not.toBeChecked();
+    await expect(page.locator(".map-list-card")).not.toHaveCount(0);
+  });
 });

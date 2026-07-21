@@ -41,9 +41,14 @@
 .node-detail h2 { color: var(--paper-light); font-size: clamp(2rem, 3vw, 3rem); }
 .node-detail p { color: #d3ddd8; }
 .node-detail .detail-year { margin-bottom: .6rem; color: var(--signal); font: 700 1.25rem/1 var(--display); }
+.detail-summary { padding: 1rem; background: rgb(255 255 255 / .07); border-left: 4px solid var(--signal); }
 .detail-pillars { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1.5rem 0; }
 .detail-pillars span { padding: .3rem .5rem; border: 1px solid var(--pill-color); color: var(--paper-light); font-size: .68rem; }
 .detail-hint { padding-top: 1.5rem; border-top: 1px solid rgb(255 255 255 / .2); font-size: .78rem; }
+.related-nodes { margin: 1.5rem 0; padding-top: 1rem; border-top: 1px solid rgb(255 255 255 / .2); }
+.related-nodes > strong { display: block; margin-bottom: .6rem; color: var(--signal); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; }
+.related-nodes button { display: block; width: 100%; min-height: 42px; padding: .55rem 0; border: 0; border-bottom: 1px solid rgb(255 255 255 / .15); background: transparent; color: var(--paper-light); font: 700 .78rem/1.3 var(--sans); text-align: left; cursor: pointer; }
+.related-nodes button:hover { color: var(--signal); }
 
 .map-guide { background: var(--sage); }
 .pillar-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--evergreen); border: 1px solid var(--evergreen); }
