@@ -61,6 +61,7 @@ const mapEmpty = document.querySelector("#map-empty");
 
 if (canvas && stage) {
   const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("The Conscious Progress map requires a 2D canvas context.");
   const state = { yaw: -.46, pitch: -.16, zoom: 1, dragging: false, moved: false, lastX: 0, lastY: 0, year: 2026, pillar: "all", motion: false, kinds: new Set(["person", "movement", "idea"]), projected: [], selected: null, hovered: null };
   const kindLabel = { person: "Person", movement: "Movement", idea: "Policy or idea" };
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
@@ -232,18 +233,19 @@ if (canvas && stage) {
     }
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left, y = event.clientY - rect.top;
-    const hit = state.projected.find((node) => Math.hypot(node.x - x, node.y - y) < 14)?.entry ?? null;
+    const matchedNode = state.projected.find((node) => Math.hypot(node.x - x, node.y - y) < 14);
+    const hit = matchedNode ? matchedNode.entry : null;
     if (hit !== state.hovered) { state.hovered = hit; stage.style.cursor = hit ? "pointer" : "grab"; render(); }
   });
   stage.addEventListener("pointerleave", () => { if (state.hovered) { state.hovered = null; render(); } });
   stage.addEventListener("pointerup", () => { state.dragging = false; });
   stage.addEventListener("wheel", (event) => { event.preventDefault(); state.zoom = Math.max(.65, Math.min(1.65, state.zoom - event.deltaY * .001)); render(); }, { passive: false });
-  stage.addEventListener("click", (event) => { if (state.moved) return; const rect = canvas.getBoundingClientRect(); const x = event.clientX - rect.left, y = event.clientY - rect.top; const hit = state.projected.reduce((best, node) => { const distance = Math.hypot(node.x - x, node.y - y); return distance < (best?.distance ?? 22) ? { entry: node.entry, distance } : best; }, null); if (hit) showDetail(hit.entry); });
+  stage.addEventListener("click", (event) => { if (state.moved) return; const rect = canvas.getBoundingClientRect(); const x = event.clientX - rect.left, y = event.clientY - rect.top; const hit = state.projected.reduce((best, node) => { const distance = Math.hypot(node.x - x, node.y - y); const bestDistance = best ? best.distance : 22; return distance < bestDistance ? { entry: node.entry, distance } : best; }, null); if (hit) showDetail(hit.entry); });
   addEventListener("resize", () => { resize(); render(); });
 
   let last = performance.now();
   const animate = (time) => { if (state.motion && !reduceMotion.matches) { state.yaw += Math.min(32, time - last) * .00012; render(); } last = time; requestAnimationFrame(animate); };
   renderList();
-  requestAnimationFrame(() => { resize(); render(); });
+  requestAnimationFrame(() => { resize(); render(); stage.classList.add("map-ready"); stage.dataset.mapReady = "true"; });
   requestAnimationFrame(animate);
 }

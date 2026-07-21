@@ -35,8 +35,12 @@ test("desktop navigation remains visible", async ({ page }) => {
 });
 
 test("map filters time and opens historical context", async ({ page }) => {
+  const errors = [];
+  page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/progress-map.html");
   await expect(page.locator("#progress-canvas")).toBeVisible();
+  await expect(page.locator("#map-stage")).toHaveAttribute("data-map-ready", "true");
+  expect(errors).toEqual([]);
   await expect(page.locator(".map-list-card")).toHaveCount(40);
   await page.locator("#year-range").evaluate((range) => { range.value = "1900"; range.dispatchEvent(new Event("input", { bubbles: true })); });
   await expect(page.locator(".map-list-card")).toHaveCount(8);
@@ -46,6 +50,16 @@ test("map filters time and opens historical context", async ({ page }) => {
   await expect(page.locator("#node-detail .related-nodes button")).toHaveCount(3);
   await page.getByRole("button", { name: "Human well-being" }).click();
   await expect(page.getByRole("button", { name: "Human well-being" })).toHaveAttribute("aria-pressed", "true");
+});
+
+test("map retains a meaningful visual when JavaScript is unavailable", async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  const page = await context.newPage();
+  await page.goto("/progress-map.html");
+  await expect(page.locator(".map-fallback")).toBeVisible();
+  await expect(page.locator(".map-fallback circle")).toHaveCount(14);
+  await expect(page.locator(".map-fallback")).toContainText("1789—2026");
+  await context.close();
 });
 
 for (const viewport of [

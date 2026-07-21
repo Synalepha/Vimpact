@@ -9,9 +9,9 @@
     <link rel="canonical" href="https://vimpact.org/progress-map" />
     <link rel="icon" href="favicon.svg" />
     <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="map.css?v=cb731a3" />
+    <link rel="stylesheet" href="map.css?v=map-fallback-1" />
     <script src="site.js" defer></script>
-    <script src="map.js?v=cb731a3" defer></script>
+    <script src="map.js?v=map-fallback-1" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -54,6 +54,31 @@
 
           <div class="map-stage" id="map-stage">
             <canvas id="progress-canvas" aria-hidden="true"></canvas>
+            <svg class="map-fallback" viewBox="0 0 760 560" role="img" aria-labelledby="fallback-title fallback-description" preserveAspectRatio="xMidYMid meet">
+              <title id="fallback-title">Conscious Progress relationship map</title>
+              <desc id="fallback-description">A static overview connecting historical contributions across human well-being, shared prosperity, democratic agency, and living systems. The complete readable list follows this map.</desc>
+              <g class="fallback-orbits" fill="none">
+                <ellipse cx="380" cy="280" rx="260" ry="92" />
+                <ellipse cx="380" cy="280" rx="176" ry="220" transform="rotate(28 380 280)" />
+                <ellipse cx="380" cy="280" rx="176" ry="220" transform="rotate(-28 380 280)" />
+              </g>
+              <g class="fallback-links">
+                <path d="M185 175 295 235 388 130 472 246 590 178" />
+                <path d="M154 330 280 305 380 390 485 310 612 348" />
+                <path d="M244 446 330 342 428 420 528 378" />
+              </g>
+              <g class="fallback-nodes">
+                <circle class="pillar-wellbeing" cx="185" cy="175" r="12" /><circle class="pillar-democracy" cx="295" cy="235" r="9" />
+                <circle class="pillar-living" cx="388" cy="130" r="11" /><circle class="pillar-prosperity" cx="472" cy="246" r="9" />
+                <circle class="pillar-wellbeing" cx="590" cy="178" r="12" /><circle class="pillar-democracy" cx="154" cy="330" r="10" />
+                <circle class="pillar-prosperity" cx="280" cy="305" r="12" /><circle class="pillar-living" cx="380" cy="390" r="11" />
+                <circle class="pillar-wellbeing" cx="485" cy="310" r="9" /><circle class="pillar-democracy" cx="612" cy="348" r="12" />
+                <circle class="pillar-prosperity" cx="244" cy="446" r="9" /><circle class="pillar-living" cx="330" cy="342" r="8" />
+                <circle class="pillar-democracy" cx="428" cy="420" r="10" /><circle class="pillar-wellbeing" cx="528" cy="378" r="8" />
+              </g>
+              <text x="380" y="274" text-anchor="middle">1789—2026</text>
+              <text class="fallback-note" x="380" y="298" text-anchor="middle">Historical contributions connected across four pillars</text>
+            </svg>
             <div class="axis-label axis-time">Time <span>1789 → 2026</span></div>
             <div class="map-instructions">Drag to orbit · scroll to zoom · select a node to learn more</div>
             <div class="map-empty" id="map-empty" hidden>No entries match these filters.</div>
